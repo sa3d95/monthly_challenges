@@ -1,7 +1,5 @@
-from django import views
 from django.urls import path
-
-from monthly_challenges.challenges import views
+from challenges import views
 
 
 urlpatterns = [
