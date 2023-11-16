@@ -33,8 +33,8 @@ def monthly_challenges_with_numbers(request, month):
 def monthly_challenge(request, month):
     try:
         challenge_text = monthly_challenges[month]
-        response_data = render_to_string("challenges/challenge.html")
-        return HttpResponse(response_data)
+        return render(request, "challenges/challenge.html") 
+        
 
     except Exception:
         return HttpResponseNotFound("Invalid Month !!!")
