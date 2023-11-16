@@ -1,6 +1,7 @@
-from calendar import JULY
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
+from django.template.loader import render_to_string
 
 monthly_challenges = {
     "january" : "Make 10 push ups a day !!!",    
@@ -21,9 +22,10 @@ monthly_challenges = {
 
 def monthly_challenges_with_numbers(request, month):
     try:
-        months = list(monthly_challenges.keys())
-        redirected_month = months[month-1]
-        return HttpResponseRedirect(f"/challenges/{redirected_month}")
+        all_months = list(monthly_challenges.keys())
+        redirected_month = all_months[month-1]
+        #redirected_path = reverse("x", args=[redirected_month]) #why it is not working?!!!
+        return HttpResponseRedirect(redirected_month)
 
     except Exception:
         return HttpResponseNotFound("Invalid Month number !!!")
@@ -31,7 +33,8 @@ def monthly_challenges_with_numbers(request, month):
 def monthly_challenge(request, month):
     try:
         challenge_text = monthly_challenges[month]
-        return HttpResponse(challenge_text)
+        response_data = render_to_string("challenges/challenge.html")
+        return HttpResponse(response_data)
 
     except Exception:
         return HttpResponseNotFound("Invalid Month !!!")
